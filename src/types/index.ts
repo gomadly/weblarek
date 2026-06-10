@@ -1,9 +1,13 @@
 export type ApiPostMethods = 'POST' | 'PUT' | 'DELETE';
 
+export type ValidationErrors = Partial<Record<keyof IBuyer, string>>;
+
 export interface IApi {
     get<T extends object>(uri: string): Promise<T>;
     post<T extends object>(uri: string, data: object, method?: ApiPostMethods): Promise<T>;
 }
+
+export type TPayment = 'card' | 'cash';
 
 // интерфейс для товара
 export interface IProduct {
@@ -15,11 +19,9 @@ export interface IProduct {
   price: number | null;
 }
 
-export type TPayment = 'card' | 'cash';
-
 // интерфейс для данных покупателя
 export interface IBuyer {
-  payment: TPayment;
+  payment:  TPayment | null;
   email: string;
   phone: string;
   address: string;
@@ -28,17 +30,23 @@ export interface IBuyer {
 // 1. Тип ответа сервера с массивом товаров
 export interface ProductsResponse {
   items: IProduct[]; // предполагаем, что сервер возвращает массив в поле items
+  total: number; 
 }
 
 // 2. Тип данных, отправляемых при создании заказа
 export interface OrderRequest {
-  buyer: IBuyer;      // данные покупателя
-  cart: IProduct[];   // выбранные товары (корзина)
+  payment: TPayment | null;
+  email: string;  
+  phone: string;
+  address: string;
+
+  productIds: string[];
+  totalPrice: number;
 }
 
 // 3. Тип подтверждения успешного заказа от сервера
 export interface OrderConfirmation {
-  orderId: string;           // ID созданного заказа
-  totalAmount: number;       // сумма заказа
-  status: string;            // статус заказа (например, 'completed')
+  orderId: string;
+  totalAmount: number;
+  status: string;
 }

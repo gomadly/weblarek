@@ -4,7 +4,11 @@ import { apiProducts } from './utils/data';
 
 import { Products } from './components/base/models/productCatalog';
 import { Cart } from './components/base/models/cart';
-import { Buyer } from './components/base/models/buyer'; 
+import { Buyer } from './components/base/models/buyer';
+
+import { ApiService } from './components/base/ProductApiService';
+import type { IApi } from './types/index';
+
 
 // Создаём экземпляры классов
 const productsModel = new Products();
@@ -48,3 +52,33 @@ console.log('Результаты валидации:', buyerModel.validate());
 
 buyerModel.clear();
 console.log('Данные покупателя после очистки:', buyerModel.getBuyerData());
+
+const validationResult = buyerModel.validate();
+console.log('Результат валидации на пустых данных:', validationResult);
+
+
+
+
+declare const apiInstance: IApi;
+const apiService = new ApiService(apiInstance);
+
+async function initApp() {
+  try {
+    // Выполняем запрос на сервер для получения товаров
+    console.log('=== Загрузка товаров с сервера ===');
+    const productsResponse = await apiService.fetchProducts();
+    console.log('Полный ответ от сервера:', productsResponse);
+
+    // Сохраняем массив товаров в модель данных каталога
+    productsModel.setItems(productsResponse.items);
+    
+    // Выводим сохранённый каталог в консоль для проверки
+    console.log('Каталог товаров после загрузки с сервера:');
+    console.log(productsModel.getItems());
+    
+  } catch (error) {
+    console.error('Ошибка при загрузке товаров:', error);
+  }
+}
+
+initApp();

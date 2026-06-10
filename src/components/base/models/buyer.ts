@@ -1,5 +1,6 @@
 // components/Models/Buyer.ts
-import { IBuyer, TPayment } from '../../../types';
+import { IBuyer, TPayment, ValidationErrors } from '../../../types';
+
 
 export class Buyer {
   private payment: TPayment = 'cash';
@@ -39,8 +40,8 @@ export class Buyer {
     this.address = '';
   }
 
-  validate(): { [key in keyof IBuyer]?: string } {
-    const errors: { [key: string]: string } = {};
+  validate(): ValidationErrors {
+    const errors: ValidationErrors = {};
 
     if (!this.payment) {
       errors.payment = 'Не выбран вид оплаты';

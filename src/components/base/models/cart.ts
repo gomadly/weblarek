@@ -29,8 +29,7 @@ export class Cart {
   }
 
   hasItem(productId: string): boolean {
-    const itemExists = this.items.some(item => item.id === productId);
-    return itemExists;
+    return this.items.some(item => item.id === productId);
   }
 }
 

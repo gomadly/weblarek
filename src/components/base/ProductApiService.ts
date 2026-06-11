@@ -1,4 +1,4 @@
-import type { IApi, IProduct, ProductsResponse, OrderRequest, OrderConfirmation } from '../../types/index';
+import type { IApi, IProduct, ProductsResponse, OrderRequest, OrderConfirmation } from '../../../types/index';
 
 export class ApiService {
   private api: IApi;

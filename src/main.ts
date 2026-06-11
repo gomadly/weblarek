@@ -2,12 +2,14 @@ import './scss/styles.scss';
 
 import { apiProducts } from './utils/data';
 
-import { Products } from './components/base/models/productCatalog';
-import { Cart } from './components/base/models/cart';
-import { Buyer } from './components/base/models/buyer';
+import { Products } from './components/models/productCatalog';
+import { Cart } from './components/models/cart';
+import { Buyer } from './components/models/buyer';
 
 import { ApiService } from './components/base/ProductApiService';
+import { Api } from './components/base/Api';
 import type { IApi } from './types/index';
+import { API_URL } from './utils/constants';
 
 
 // Создаём экземпляры классов
@@ -59,7 +61,7 @@ console.log('Результат валидации на пустых данны�
 
 
 
-declare const apiInstance: IApi;
+const apiInstance = new Api(API_URL);
 const apiService = new ApiService(apiInstance);
 
 async function initApp() {

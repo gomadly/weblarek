@@ -3,7 +3,7 @@ import { IBuyer, TPayment, ValidationErrors } from '../../../types';
 
 
 export class Buyer {
-  private payment: TPayment = 'cash';
+  private payment: TPayment | null = null;
   private email: string = '';
   private phone: string = '';
   private address: string = '';
@@ -34,7 +34,7 @@ export class Buyer {
   }
 
   clear(): void {
-    this.payment = 'cash' as TPayment;
+    this.payment = null;
     this.email = '';
     this.phone = '';
     this.address = '';

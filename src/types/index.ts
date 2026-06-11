@@ -40,13 +40,12 @@ export interface OrderRequest {
   phone: string;
   address: string;
 
-  productIds: string[];
-  totalPrice: number;
+  items: string[];
+  total: number;
 }
 
 // 3. Тип подтверждения успешного заказа от сервера
 export interface OrderConfirmation {
-  orderId: string;
-  totalAmount: number;
-  status: string;
+  id: string;
+  total: number;
 }

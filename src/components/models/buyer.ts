@@ -1,5 +1,5 @@
 // components/Models/Buyer.ts
-import { IBuyer, TPayment, ValidationErrors } from '../../../types';
+import { IBuyer, TPayment, ValidationErrors } from '../../types';
 
 
 export class Buyer {

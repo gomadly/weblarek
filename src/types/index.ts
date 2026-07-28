@@ -35,7 +35,7 @@ export interface ProductsResponse {
 
 // 2. Тип данных, отправляемых при создании заказа
 export interface OrderRequest {
-  payment: TPayment | null;
+  payment: TPayment;
   email: string;  
   phone: string;
   address: string;

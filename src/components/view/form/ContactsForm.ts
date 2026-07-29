@@ -1,13 +1,32 @@
-import { BasicForm } from './BasicForm';
-import { IEvents } from '../../base/Events';
+  import { BasicForm } from './BasicForm';
+  import { IEvents } from '../../base/Events';
+  import { IContactsFormState } from '../../../types';
 
-export class ContactsForm extends BasicForm<{ email: string, phone: string }> {
-  constructor(template: HTMLTemplateElement, eventEmitter: IEvents) {
-    super(template, eventEmitter);
+  export class ContactsForm extends BasicForm<IContactsFormState> {
+    //Поля
 
-    this.container.addEventListener('submit', (event: Event) => {
-      event.preventDefault();
-      this.eventEmitter.emit('contacts:submit');
-    });
+    protected emailElement: HTMLInputElement;
+    protected phoneElement: HTMLInputElement;
+
+    constructor(container: HTMLElement, eventEmitter: IEvents) {
+      super(container, eventEmitter);
+
+      this.emailElement = this.container.querySelector('[name="email"]') as HTMLInputElement;
+      this.phoneElement = this.container.querySelector('[name="phone"]') as HTMLInputElement;
+
+      this.container.addEventListener('submit', (event: Event) => {
+        event.preventDefault();
+        this.eventEmitter.emit('contacts:submit');
+      });
+    }
+
+    //Сеттеры
+    
+    set email(value: string) {
+      this.emailElement.value = value;
+    }
+
+    set phone(value: string) {
+      this.phoneElement.value = value;
+    }
   }
-}

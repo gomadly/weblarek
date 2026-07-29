@@ -1,9 +1,11 @@
 import { Component } from '../base/Component';
 import { IEvents } from '../base/Events';
+import { IHeaderView } from '../../types'
 
-export class HeaderView extends Component<unknown> {
+export class HeaderView extends Component<IHeaderView > {
 
-  //Поля
+  // Поля
+
   protected counterElement: HTMLElement;
   protected basketButton: HTMLElement;
 
@@ -19,7 +21,8 @@ export class HeaderView extends Component<unknown> {
     })
   }
 
-  //Сеттер
+  // Сеттер
+
   set counter(value: number) {
     this.counterElement.textContent = String(value);
   }

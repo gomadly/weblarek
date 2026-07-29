@@ -1,42 +1,37 @@
 import { Component } from '../base/Component';
 import { IEvents } from '../base/Events';
+import { ensureElement } from '../../utils/utils';
 
 export class BasketView extends Component<unknown> {
   // Поля
+
   protected listElement: HTMLElement;
   protected totalElement: HTMLElement;
-  protected orderButton: HTMLButtonElement | null;
+  protected orderButton: HTMLButtonElement;
 
-  constructor(template: HTMLTemplateElement, private eventEmitter: IEvents) {
-    super(template.content.cloneNode(true) as HTMLElement);
+  constructor(container: HTMLElement, private eventEmitter: IEvents) {
+    super(container);
 
-    this.listElement = this.container.querySelector('.basket__list') as HTMLElement;
-    this.totalElement = this.container.querySelector('.basket__price') as HTMLElement;
-    this.orderButton = this.container.querySelector('.basket__button') as HTMLButtonElement;
+    this.listElement = ensureElement<HTMLElement>('.basket__list', this.container);
+    this.totalElement = ensureElement<HTMLElement>('.basket__price', this.container);
+    this.orderButton = ensureElement<HTMLButtonElement>('.basket__button', this.container);
 
-    if (this.orderButton) {
-      this.orderButton.addEventListener('click', () => {
-        this.eventEmitter.emit('basket:order');
-      });
-    }
+    this.orderButton.addEventListener('click', () => {
+      this.eventEmitter.emit('basket:order');
+    });
   }
 
   // Сеттеры
+
   set items(items: HTMLElement[]) {
-    if (this.listElement) {
-      if (items.length > 0) {
-        this.listElement.replaceChildren(...items);
-        if (this.orderButton) this.orderButton.disabled = false;
-      } else {
-        this.listElement.replaceChildren();
-        if (this.orderButton) this.orderButton.disabled = true;
-      }
-    }
+    this.listElement.replaceChildren(...items);
   }
 
   set total(value: number) {
-    if (this.totalElement) {
-      this.totalElement.textContent = `${value} синапсов`;
-    }
+    this.totalElement.textContent = `${value} синапсов`;
+  }
+
+  set buttonDisabled(value: boolean) {
+    this.orderButton.disabled = value;
   }
 }

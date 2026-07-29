@@ -1,9 +1,11 @@
 import { Component } from '../base/Component';
 import { IEvents } from '../base/Events';
+import { IModalView } from '../../types'
 
-export class ModalView extends Component<unknown> {
+export class ModalView extends Component<IModalView> {
 
-  //Поля
+  // Поля
+
   protected closeButton: HTMLButtonElement;
   protected contentElement: HTMLElement;
 
@@ -25,12 +27,14 @@ export class ModalView extends Component<unknown> {
     });
   }
 
-  //Сеттер
+  //Сеттеры
+
   set content(value: HTMLElement) {
     this.contentElement.replaceChildren(value);
   }
 
   //Методы
+  
   open() {
     this.container.classList.add('modal_active');
   }

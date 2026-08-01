@@ -1,18 +1,18 @@
 import { Component } from '../base/Component';
 import { IEvents } from '../base/Events';
 import { ISuccessView } from '../../types';
+import { ensureElement } from '../../utils/utils';
 
 export class SuccessView extends Component<ISuccessView> {
   // Поля
-  
   protected descriptionElement: HTMLElement;
   protected closeButton: HTMLButtonElement;
 
   constructor(container: HTMLElement, private eventEmitter: IEvents) {
     super(container);
 
-    this.descriptionElement = this.container.querySelector('.order-success__description') as HTMLElement;
-    this.closeButton = this.container.querySelector('.order-success__close') as HTMLButtonElement;
+    this.descriptionElement = ensureElement<HTMLElement>('.order-success__description', this.container);
+    this.closeButton = ensureElement<HTMLButtonElement>('.order-success__close', this.container);
 
     this.closeButton.addEventListener('click', () => {
       this.eventEmitter.emit('success:close');
@@ -20,7 +20,6 @@ export class SuccessView extends Component<ISuccessView> {
   }
 
   // Сеттеры
-
   set description(value: string) {
     this.descriptionElement.textContent = value;
   }

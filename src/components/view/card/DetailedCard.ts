@@ -1,33 +1,34 @@
 import { Card } from './Card';
 import { IEvents } from '../../base/Events';
 import { categoryMap } from '../../../utils/constants';
+import { ensureElement } from '../../../utils/utils';
+import { IDetailedCard } from '../../../types'; 
 
-export class DetailedCard extends Card {
+export class DetailedCard extends Card<IDetailedCard> {
   // Поля
-  
   protected descriptionElement: HTMLElement;
   protected imageElement: HTMLImageElement;
   protected categoryElement: HTMLElement;
   protected actionButton: HTMLButtonElement;
+  
+  private eventEmitter: IEvents;
 
-
-  constructor(container: HTMLElement, eventEmitter: IEvents, private productId: string) {
+  constructor(container: HTMLElement, eventEmitter: IEvents) {
+    super(container); 
     
-    super(container, eventEmitter)
+    this.eventEmitter = eventEmitter;
 
-    this.descriptionElement = this.container.querySelector('.card__text') as HTMLElement;
-    this.imageElement = this.container.querySelector('.card__image') as HTMLImageElement;
-    this.categoryElement = this.container.querySelector('.card__category') as HTMLElement;
-    this.actionButton = this.container.querySelector('.card__button') as HTMLButtonElement;
-    this.descriptionElement = this.container.querySelector('.card__text') as HTMLElement;
+    this.descriptionElement = ensureElement<HTMLElement>('.card__text', this.container);
+    this.imageElement = ensureElement<HTMLImageElement>('.card__image', this.container);
+    this.categoryElement = ensureElement<HTMLElement>('.card__category', this.container);
+    this.actionButton = ensureElement<HTMLButtonElement>('.card__button', this.container);
 
-   this.actionButton.addEventListener('click', () => {
-      this.eventEmitter!.emit('card:add', { id: this.productId });
+    this.actionButton.addEventListener('click', () => {
+      this.eventEmitter.emit('card:action'); 
     });
   }
 
   // Сеттеры
-
   set image(value: string) {
     this.imageElement.src = value;
   }

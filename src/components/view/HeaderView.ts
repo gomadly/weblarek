@@ -1,11 +1,11 @@
 import { Component } from '../base/Component';
 import { IEvents } from '../base/Events';
 import { IHeaderView } from '../../types'
+import { ensureElement } from '../../utils/utils'
 
 export class HeaderView extends Component<IHeaderView > {
 
   // Поля
-
   protected counterElement: HTMLElement;
   protected basketButton: HTMLElement;
 
@@ -13,8 +13,8 @@ export class HeaderView extends Component<IHeaderView > {
 
     super(container);
 
-    this.counterElement = this.container.querySelector('.header__basket-counter') as HTMLElement;
-    this.basketButton = this.container.querySelector('.header__basket') as HTMLElement;
+    this.counterElement = ensureElement('.header__basket-counter', this.container);
+    this.basketButton = ensureElement('.header__basket', this.container);
 
     this.basketButton.addEventListener('click', () => {
       this.eventEmitter.emit('basket:open');
@@ -22,7 +22,6 @@ export class HeaderView extends Component<IHeaderView > {
   }
 
   // Сеттер
-
   set counter(value: number) {
     this.counterElement.textContent = String(value);
   }

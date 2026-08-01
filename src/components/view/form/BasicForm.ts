@@ -1,12 +1,12 @@
 import { Component } from '../../base/Component';
 import { IEvents } from '../../base/Events';
 import { IFormState } from '../../../types';
+import { ensureElement } from '../../../utils/utils';
 
 export class BasicForm<T extends IFormState> extends Component<T> {
   // Поля
-
-  protected submitButton: HTMLButtonElement | null;
-  protected errorsElement: HTMLElement | null;
+  protected submitButton: HTMLButtonElement;
+  protected errorsElement: HTMLElement; 
   protected eventEmitter: IEvents;
 
   constructor(container: HTMLElement, eventEmitter: IEvents) {
@@ -14,14 +14,13 @@ export class BasicForm<T extends IFormState> extends Component<T> {
     
     this.eventEmitter = eventEmitter;
 
-    this.submitButton = this.container.querySelector('.modal__actions .button') as HTMLButtonElement;
-    this.errorsElement = this.container.querySelector('.form__errors') as HTMLElement;
+    this.submitButton = ensureElement<HTMLButtonElement>('.modal__actions .button', this.container);
+    this.errorsElement = ensureElement<HTMLElement>('.form__errors', this.container);
 
     this.container.addEventListener('input', (event: Event) => {
       const target = event.target as HTMLInputElement;
       if (target.name) {
         this.eventEmitter.emit(`${target.name}:change`, {
-          field: target.name,
           value: target.value
         });
       }
@@ -29,16 +28,11 @@ export class BasicForm<T extends IFormState> extends Component<T> {
   }
 
   // Сеттеры
-  
   set errors(value: string) {
-    if (this.errorsElement) {
-      this.errorsElement.textContent = value;
-    }
+    this.errorsElement.textContent = value;
   }
 
   set valid(value: boolean) {
-    if (this.submitButton) {
-      this.submitButton.disabled = !value;
-    }
+    this.submitButton.disabled = !value;
   }
 }

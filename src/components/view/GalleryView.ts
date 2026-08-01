@@ -8,7 +8,6 @@ export class GalleryView extends Component<{ items: HTMLElement[] }> {
   }
 
   // Сеттеры
-  
   set items(items: HTMLElement[]) {
     this.container.replaceChildren(...items);
   }

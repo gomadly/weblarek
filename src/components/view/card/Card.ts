@@ -1,28 +1,29 @@
 import { Component } from "../../base/Component";
-import { IEvents } from "../../base/Events";
 import { ICard } from '../../../types';
+import { ensureElement } from '../../../utils/utils';
 
-export class Card extends Component<ICard> {
+export class Card<T extends ICard> extends Component<T> {
   // Поля
-
   protected titleElement: HTMLElement;
   protected priceElement: HTMLElement;
 
-  constructor (container: HTMLElement, protected eventEmitter?: IEvents) {
-
+  constructor(container: HTMLElement) {
     super(container);
 
-    this.titleElement = this.container.querySelector('.card__title') as HTMLElement;
-    this.priceElement = this.container.querySelector('.card__price') as HTMLElement;
+    this.titleElement = ensureElement('.card__title', this.container);
+    this.priceElement = ensureElement('.card__price', this.container);
   }
 
   // Сеттеры
-  
   set title(value: string) {
     this.titleElement.textContent = value;
   }
 
   set price(value: number | null) {
-    this.priceElement.textContent = value !== null ? `${value} синапсов` : '';
+    if (value === null || value === 0) {
+      this.priceElement.textContent = 'Бесценно';
+    } else {
+      this.priceElement.textContent = `${value} синапсов`;
+    }
   }
 }

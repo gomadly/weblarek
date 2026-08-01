@@ -1,9 +1,10 @@
 import { Card } from './Card';
 import { categoryMap } from '../../../utils/constants';
+import { ensureElement } from '../../../utils/utils';
+import { ICatalogCard } from '../../../types'; 
 
-export class CatalogCard extends Card {
+export class CatalogCard extends Card<ICatalogCard> {
   // Поля
-
   protected imageElement: HTMLImageElement;
   protected categoryElement: HTMLElement;
 
@@ -12,12 +13,11 @@ export class CatalogCard extends Card {
 
     this.container.addEventListener('click', this.onSelect);
 
-    this.imageElement = this.container.querySelector('.card__image') as HTMLImageElement;
-    this.categoryElement = this.container.querySelector('.card__category') as HTMLElement;
+    this.imageElement = ensureElement<HTMLImageElement>('.card__image', this.container);
+    this.categoryElement = ensureElement<HTMLElement>('.card__category', this.container);
   }
 
-  //Сеттеры
-
+  // Сеттеры
   set image(value: string) {
     this.imageElement.src = value;
   }
